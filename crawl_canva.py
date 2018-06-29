@@ -56,8 +56,8 @@ for form in soup.find_all('form'):
 print("===================================")
 payload = {
 	'csrfToken' : token,
-	'email' : '********',
-	'password' : '*******'
+	'email' : '*********',
+	'password' : '**********'
 }
 post_some = s.post('https://www.canva.com/login/canva?redirect=%2F',data=payload , headers = header)
 #get_now = s.get('http://www.canva.com/login/canva?redirect=%2F')
@@ -65,7 +65,7 @@ print(post_some.status_code)
 #print("xxxxxxxxxxxxxxxxxxxxxx")
 soupy = BeautifulSoup(post_some.text, 'html.parser')
 #print(soupy.prettify())
-if '*********' in post_some.text:
+if 'f20160541' in post_some.text:
 	print("yes")  #hooooorraaayyy
 else:
 	print("no")
@@ -91,10 +91,9 @@ for c in s.cookies :
     driver.add_cookie({'name': c.name, 'value': c.value, 'path': c.path, 'expiry': c.expires})
 
 driver.get("https://www.canva.com")
-driver.get("https://www.canva.com/design/DAC4kGq3Lvw/edit")
-elem = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.XPATH, "//*[contains(text(), 'Gohan')]")))
-#elem = driver.find_elements_by_xpath("//*[contains(text(), 'Gohan')]")
-#menu = driver.find_element_by_xpath("//*[contains(@class, 'BITS PILANI K.K. Birla Goa Campus')]")
+driver.get("***********")
+#elem = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.XPATH, "//*[contains(text(), 'Gohan')]")))
+elem = driver.find_elements_by_xpath("//*[contains(text(), 'Gohan')]")
 print(elem)
 for i,elemo in enumerate(elem):
 	try:
@@ -102,10 +101,17 @@ for i,elemo in enumerate(elem):
 		driver.execute_script("arguments[0].innerHTML = 'Dale'", elemo)
 	except:
 		continue
-
+time.sleep(5)
+#menu = driver.find_element_by_xpath("//*[contains(text(), 'CENTer FOR TECHNICAL EDUCATION')]")
 #print(menu)
+#menu.click()
 #time.sleep(5)
-#ActionChains(driver).move_to_element(menu).double_click().perform()
+menu2 =  driver.find_element_by_xpath("//*[@class='element image hasMedia']")
+#menu2.double_click()
+#driver.execute_script("arguments[0].click();", menu2)
+#time.sleep(2)
+ActionChains(driver).move_to_element(menu2).double_click().perform()
+#ActionChains(driver).move_to_element(menu2).double_click().perform()
 #time.sleep(5)
 #try:
 #	menu.click()
@@ -113,12 +119,12 @@ for i,elemo in enumerate(elem):
 #except:
 	#pass
 #driver.refresh()
-#log_but2 = "//button[contains(@class, 'button editorActionExport prerollAnimation prerollDelay4')]"
-#driver.find_element_by_xpath(log_but2).click()
-#time.sleep(5)
-#log_but3 = "//button[contains(@class, 'button buttonBlock buttonSubmittable exportPopOver__downloadButton')]"
-#driver.find_element_by_xpath(log_but3).click()
-#print(elemento)
+log_but2 = "//button[contains(@class, 'button editorActionExport prerollAnimation prerollDelay4')]"
+driver.find_element_by_xpath(log_but2).click()
+time.sleep(5)
+log_but3 = "//button[contains(@class, 'button buttonBlock buttonSubmittable exportPopOver__downloadButton')]"
+driver.find_element_by_xpath(log_but3).click()
+
 
 # time.sleep(30)
 
