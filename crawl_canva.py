@@ -20,7 +20,6 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 options = webdriver.ChromeOptions() 
-#options.add_argument("download.default_directory=/Users/fenilsuchak/Downloads")
 options.add_experimental_option("prefs", {
   "download.default_directory": r"/Users/fenilsuchak/Downloads",
   "download.prompt_for_download": False,
@@ -52,7 +51,6 @@ for tag in tags:
 		break
 for form in soup.find_all('form'):
 	print(form.attrs.get('action'))
-#print(soup.prettify())
 print("===================================")
 payload = {
 	'csrfToken' : token,
@@ -60,20 +58,16 @@ payload = {
 	'password' : '**********'
 }
 post_some = s.post('https://www.canva.com/login/canva?redirect=%2F',data=payload , headers = header)
-#get_now = s.get('http://www.canva.com/login/canva?redirect=%2F')
 print(post_some.status_code)
-#print("xxxxxxxxxxxxxxxxxxxxxx")
 soupy = BeautifulSoup(post_some.text, 'html.parser')
-#print(soupy.prettify())
 if 'f20160541' in post_some.text:
-	print("yes")  #hooooorraaayyy
+	print("yes") 
 else:
 	print("no")
 
 tags = soupy("a")
 
 
-#Getting the All design
 header2 = {
 	'user-agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36'
 }
@@ -81,10 +75,7 @@ designs = s.get('https://www.canva.com/', headers = header2)
 soup3 = BeautifulSoup(designs.text,'html.parser')
 tago = soup3("a")
 print(tago)
-#print(soup3.prettify())
-print(designs.status_code)
-print(s.cookies)
-#Selenium to the rescure
+
 driver.get("https://www.canva.com")
 
 for c in s.cookies :
@@ -92,7 +83,6 @@ for c in s.cookies :
 
 driver.get("https://www.canva.com")
 driver.get("***********")
-#elem = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.XPATH, "//*[contains(text(), 'Gohan')]")))
 elem = driver.find_elements_by_xpath("//*[contains(text(), 'Gohan')]")
 print(elem)
 for i,elemo in enumerate(elem):
@@ -102,30 +92,10 @@ for i,elemo in enumerate(elem):
 	except:
 		continue
 time.sleep(5)
-#menu = driver.find_element_by_xpath("//*[contains(text(), 'CENTer FOR TECHNICAL EDUCATION')]")
-#print(menu)
-#menu.click()
-#time.sleep(5)
 menu2 =  driver.find_element_by_xpath("//*[@class='element image hasMedia']")
-#menu2.double_click()
-#driver.execute_script("arguments[0].click();", menu2)
-#time.sleep(2)
 ActionChains(driver).move_to_element(menu2).double_click().perform()
-#ActionChains(driver).move_to_element(menu2).double_click().perform()
-#time.sleep(5)
-#try:
-#	menu.click()
-	#driver.execute_script("arguments[0].innerHTML = 'awarded to'", menu)
-#except:
-	#pass
-#driver.refresh()
 log_but2 = "//button[contains(@class, 'button editorActionExport prerollAnimation prerollDelay4')]"
 driver.find_element_by_xpath(log_but2).click()
 time.sleep(5)
 log_but3 = "//button[contains(@class, 'button buttonBlock buttonSubmittable exportPopOver__downloadButton')]"
 driver.find_element_by_xpath(log_but3).click()
-
-
-# time.sleep(30)
-
-#driver.get("https://download.canva.com/DAC4kGq3Lvw/310/custom/0001-1454498818.png?response-content-disposition=attachment%3B%20filename%2A%3DUTF-8%27%27Krishna%2520Kamdi.png&response-expires=Thu%2C%2028%20Jun%202018%2011%3A24%3A26%20GMT&AWSAccessKeyId=AKIAJHKNGJLC2J7OGJ6Q&Expires=1530185066&Signature=P9cDS25Mi9%2FdvUxXO2n%2BODJ0VGI%3D")
