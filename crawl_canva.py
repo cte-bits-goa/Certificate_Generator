@@ -19,6 +19,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
+import pandas as pd 
+import numpy as np
+entries = pd.read_csv('sample.csv')
+names = list(entries['Names'].values)
+print(type(names))
+names = names + ['Jesus']
+print(names)
 options = webdriver.ChromeOptions() 
 options.add_experimental_option("prefs", {
   "download.default_directory": r"/Users/fenilsuchak/Downloads",
@@ -54,16 +61,12 @@ for form in soup.find_all('form'):
 print("===================================")
 payload = {
 	'csrfToken' : token,
-	'email' : '*********',
-	'password' : '**********'
+	'email' : '*******',
+	'password' : '*********'
 }
 post_some = s.post('https://www.canva.com/login/canva?redirect=%2F',data=payload , headers = header)
 print(post_some.status_code)
 soupy = BeautifulSoup(post_some.text, 'html.parser')
-if 'f20160541' in post_some.text:
-	print("yes") 
-else:
-	print("no")
 
 tags = soupy("a")
 
@@ -74,7 +77,6 @@ header2 = {
 designs = s.get('https://www.canva.com/', headers = header2)
 soup3 = BeautifulSoup(designs.text,'html.parser')
 tago = soup3("a")
-print(tago)
 
 driver.get("https://www.canva.com")
 
@@ -82,20 +84,50 @@ for c in s.cookies :
     driver.add_cookie({'name': c.name, 'value': c.value, 'path': c.path, 'expiry': c.expires})
 
 driver.get("https://www.canva.com")
-driver.get("***********")
-elem = driver.find_elements_by_xpath("//*[contains(text(), 'Gohan')]")
-print(elem)
-for i,elemo in enumerate(elem):
-	try:
-		elemo.click()
-		driver.execute_script("arguments[0].innerHTML = 'Dale'", elemo)
-	except:
+for i,name in enumerate(names):
+	driver.get("*********************************")
+	if i == 0:
+		elem = driver.find_elements_by_xpath("//*[contains(text(), 'Jesus')]")
+		print(elem)
+		for j,elemo in enumerate(elem):
+			try:
+				print(i,name)
+				elemo.click()
+				driver.execute_script("arguments[0].innerHTML = '{}'".format(name), elemo)
+			except:
+				continue
+		time.sleep(5)
+		menu2 =  driver.find_element_by_xpath("//*[@class='element image hasMedia']")
+		ActionChains(driver).move_to_element(menu2).double_click().perform()
+		time.sleep(4)
+		log_but2 = "//button[contains(@class, 'button editorActionExport prerollAnimation prerollDelay4')]"
+		driver.find_element_by_xpath(log_but2).click()
+		time.sleep(5)
+		log_but3 = "//button[contains(@class, 'button buttonBlock buttonSubmittable exportPopOver__downloadButton')]"
+		driver.find_element_by_xpath(log_but3).click()
+		time.sleep(10)
+	elif name == 'nan':
 		continue
-time.sleep(5)
-menu2 =  driver.find_element_by_xpath("//*[@class='element image hasMedia']")
-ActionChains(driver).move_to_element(menu2).double_click().perform()
-log_but2 = "//button[contains(@class, 'button editorActionExport prerollAnimation prerollDelay4')]"
-driver.find_element_by_xpath(log_but2).click()
-time.sleep(5)
-log_but3 = "//button[contains(@class, 'button buttonBlock buttonSubmittable exportPopOver__downloadButton')]"
-driver.find_element_by_xpath(log_but3).click()
+	else:
+		elem = driver.find_elements_by_xpath("//*[contains(text(), '{}')]".format(names[i-1]))
+		print(elem)
+		for j,elemo in enumerate(elem):
+			try:
+				print(j,name)
+				elemo.click()
+				driver.execute_script("arguments[0].innerHTML = '{}'".format(name), elemo)
+			except:
+				continue
+		time.sleep(10)
+		menu2 =  driver.find_element_by_xpath("//*[@class='element image hasMedia']")
+		ActionChains(driver).move_to_element(menu2).double_click().perform()
+		time.sleep(4)
+		log_but2 = "//button[contains(@class, 'button editorActionExport prerollAnimation prerollDelay4')]"
+		driver.find_element_by_xpath(log_but2).click()
+		time.sleep(5)
+		log_but3 = "//button[contains(@class, 'button buttonBlock buttonSubmittable exportPopOver__downloadButton')]"
+		driver.find_element_by_xpath(log_but3).click()
+		time.sleep(20)
+	print("===================================")
+
+
