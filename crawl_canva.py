@@ -61,8 +61,8 @@ for form in soup.find_all('form'):
 print("===================================")
 payload = {
 	'csrfToken' : token,
-	'email' : '*******',
-	'password' : '*********'
+	'email' : '***********',
+	'password' : '***********'
 }
 post_some = s.post('https://www.canva.com/login/canva?redirect=%2F',data=payload , headers = header)
 print(post_some.status_code)
@@ -85,15 +85,21 @@ for c in s.cookies :
 
 driver.get("https://www.canva.com")
 for i,name in enumerate(names):
-	driver.get("*********************************")
+	driver.get("**********")
 	if i == 0:
 		elem = driver.find_elements_by_xpath("//*[contains(text(), 'Jesus')]")
-		print(elem)
 		for j,elemo in enumerate(elem):
 			try:
 				print(i,name)
 				elemo.click()
-				driver.execute_script("arguments[0].innerHTML = '{}'".format(name), elemo)
+				try:
+					time.sleep(2)
+					drop_down = driver.find_elements_by_xpath("//*[@class='textInput']")[0].send_keys(name)
+					done_button = driver.find_elements_by_xpath("//*[@class='button buttonBlock done']")
+					done_button[0].click()
+					time.sleep(3)
+				except:
+					driver.execute_script("arguments[0].innerHTML = '{}'".format(name), elemo)
 			except:
 				continue
 		time.sleep(5)
@@ -110,12 +116,18 @@ for i,name in enumerate(names):
 		continue
 	else:
 		elem = driver.find_elements_by_xpath("//*[contains(text(), '{}')]".format(names[i-1]))
-		print(elem)
 		for j,elemo in enumerate(elem):
 			try:
-				print(j,name)
+				print(i,name)
 				elemo.click()
-				driver.execute_script("arguments[0].innerHTML = '{}'".format(name), elemo)
+				try:
+					time.sleep(2)
+					drop_down = driver.find_elements_by_xpath("//*[@class='textInput']")[0].send_keys(name)
+					done_button = driver.find_elements_by_xpath("//*[@class='button buttonBlock done']")
+					done_button[0].click()
+					time.sleep(3)
+				except:
+					driver.execute_script("arguments[0].innerHTML = '{}'".format(name), elemo)
 			except:
 				continue
 		time.sleep(10)
@@ -127,7 +139,7 @@ for i,name in enumerate(names):
 		time.sleep(5)
 		log_but3 = "//button[contains(@class, 'button buttonBlock buttonSubmittable exportPopOver__downloadButton')]"
 		driver.find_element_by_xpath(log_but3).click()
-		time.sleep(20)
+		time.sleep(30)
 	print("===================================")
 
 
