@@ -48,7 +48,7 @@ header = {
 	'user-agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36'
 }
 
-s = requests.Session()
+'''s = requests.Session()
 get_some = s.get('http://www.canva.com/login')
 soup = BeautifulSoup(get_some.text,'html.parser')
 tags = soup('input')
@@ -57,8 +57,16 @@ for tag in tags:
 		token = tag.get('value')
 		break
 for form in soup.find_all('form'):
-	print(form.attrs.get('action'))
-print("===================================")
+	print(form.attrs.get('action'))'''
+driver.get('http://www.canva.com/login')
+time.sleep(10)
+username = driver.find_element_by_id("email")
+password = driver.find_element_by_id("password")
+print("done")
+username.send_keys('f20160541@goa.bits-pilani.ac.in')
+password.send_keys('Fenil@3510')
+driver.find_element_by_xpath("//*[@class='form__submitButton js-form__submitButton button buttonBlock buttonSubmit']").click()
+'''print("===================================")
 payload = {
 	'csrfToken' : token,
 	'email' : '***********',
@@ -78,14 +86,14 @@ designs = s.get('https://www.canva.com/', headers = header2)
 soup3 = BeautifulSoup(designs.text,'html.parser')
 tago = soup3("a")
 
-driver.get("https://www.canva.com")
+driver.get("https://www.canva.com")'''
 
-for c in s.cookies :
-    driver.add_cookie({'name': c.name, 'value': c.value, 'path': c.path, 'expiry': c.expires})
+'''for c in s.cookies :
+    driver.add_cookie({'name': c.name, 'value': c.value, 'path': c.path, 'expiry': c.expires})'''
 
-driver.get("https://www.canva.com")
+'''driver.get("https://www.canva.com")'''
 for i,name in enumerate(names):
-	driver.get("**********")
+	driver.get("https://www.canva.com/design/DAC4kGq3Lvw/E7bYl2iLHWniESgkLr7-hQ/edit")
 	if i == 0:
 		elem = driver.find_elements_by_xpath("//*[contains(text(), 'Jesus')]")
 		for j,elemo in enumerate(elem):
