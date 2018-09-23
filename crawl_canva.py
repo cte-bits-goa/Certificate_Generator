@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import tldextract
 import requests
 import ssl
+import sys
 from scrapy.http import FormRequest
 from fake_useragent import UserAgent
 import json
@@ -21,11 +22,11 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 import pandas as pd 
 import numpy as np
-entries = pd.read_csv('sample.csv')
-names = list(entries['Names'].values)
-print(type(names))
-names = names + ['Jesus']
+entries = pd.read_csv('merged_sem2_17_18.csv')
+current_course = sys.argv[1]
+names = entries.loc[entries['Course'] == current_course ,'Name '].values
 print(names)
+#driver = webdriver.PhantomJS('/Users/fenilsuchak/Desktop/scraping_cte/phantomjs')
 options = webdriver.ChromeOptions() 
 options.add_experimental_option("prefs", {
   "download.default_directory": r"/Users/fenilsuchak/Downloads",
@@ -33,7 +34,8 @@ options.add_experimental_option("prefs", {
   "download.directory_upgrade": True,
   "safebrowsing.enabled": True
 })
-driver = webdriver.Chrome('/Users/fenilsuchak/Desktop/scrapy_cte/chromedriver' , chrome_options = options)
+
+driver = webdriver.Chrome('/Users/fenilsuchak/Desktop/scraping_cte/chromedriver' , chrome_options = options)
 
 header = {
 	'accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
@@ -59,7 +61,8 @@ for tag in tags:
 for form in soup.find_all('form'):
 	print(form.attrs.get('action'))'''
 driver.get('http://www.canva.com/login')
-time.sleep(10)
+delay = 5
+WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.ID, 'email')))
 username = driver.find_element_by_id("email")
 password = driver.find_element_by_id("password")
 print("done")
@@ -93,6 +96,7 @@ driver.get("https://www.canva.com")'''
 
 '''driver.get("https://www.canva.com")'''
 for i,name in enumerate(names):
+	name = name.title()
 	driver.get("https://www.canva.com/design/DAC4kGq3Lvw/E7bYl2iLHWniESgkLr7-hQ/edit")
 	if i == 0:
 		elem = driver.find_elements_by_xpath("//*[contains(text(), 'Jesus')]")
@@ -110,20 +114,17 @@ for i,name in enumerate(names):
 					driver.execute_script("arguments[0].innerHTML = '{}'".format(name), elemo)
 			except:
 				continue
-		time.sleep(5)
-		menu2 =  driver.find_element_by_xpath("//*[@class='element image hasMedia']")
+		menu2 = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, "//*[@class='element image hasMedia']")))
 		ActionChains(driver).move_to_element(menu2).double_click().perform()
-		time.sleep(4)
-		log_but2 = "//button[contains(@class, 'button editorActionExport prerollAnimation prerollDelay4')]"
-		driver.find_element_by_xpath(log_but2).click()
-		time.sleep(5)
-		log_but3 = "//button[contains(@class, 'button buttonBlock buttonSubmittable exportPopOver__downloadButton')]"
-		driver.find_element_by_xpath(log_but3).click()
+		log_but2 = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, "//button[contains(@class, 'button editorActionExport prerollAnimation prerollDelay4')]")))
+		log_but2.click()
+		log_but3 = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, "//button[contains(@class, 'button buttonBlock buttonSubmittable exportPopOver__downloadButton')]")))
+		log_but3.click()
 		time.sleep(10)
 	elif name == 'nan':
 		continue
 	else:
-		elem = driver.find_elements_by_xpath("//*[contains(text(), '{}')]".format(names[i-1]))
+		elem = driver.find_elements_by_xpath("//*[contains(text(), '{}')]".format(names[i-1].title()))
 		for j,elemo in enumerate(elem):
 			try:
 				print(i,name)
@@ -138,16 +139,13 @@ for i,name in enumerate(names):
 					driver.execute_script("arguments[0].innerHTML = '{}'".format(name), elemo)
 			except:
 				continue
-		time.sleep(10)
-		menu2 =  driver.find_element_by_xpath("//*[@class='element image hasMedia']")
+		menu2 = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, "//*[@class='element image hasMedia']")))
 		ActionChains(driver).move_to_element(menu2).double_click().perform()
-		time.sleep(4)
-		log_but2 = "//button[contains(@class, 'button editorActionExport prerollAnimation prerollDelay4')]"
-		driver.find_element_by_xpath(log_but2).click()
-		time.sleep(5)
-		log_but3 = "//button[contains(@class, 'button buttonBlock buttonSubmittable exportPopOver__downloadButton')]"
-		driver.find_element_by_xpath(log_but3).click()
-		time.sleep(30)
+		log_but2 = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, "//button[contains(@class, 'button editorActionExport prerollAnimation prerollDelay4')]")))
+		log_but2.click()
+		log_but3 = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, "//button[contains(@class, 'button buttonBlock buttonSubmittable exportPopOver__downloadButton')]")))
+		log_but3.click()
+		time.sleep(10)
 	print("===================================")
 
 
