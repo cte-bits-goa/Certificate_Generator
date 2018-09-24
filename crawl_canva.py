@@ -26,7 +26,7 @@ entries = pd.read_csv('merged_sem2_17_18.csv')
 current_course = sys.argv[1]
 names = entries.loc[entries['Course'] == current_course ,'Name '].values
 print(names)
-#driver = webdriver.PhantomJS('/Users/fenilsuchak/Desktop/scraping_cte/phantomjs')
+names = names + ['Jesus']
 options = webdriver.ChromeOptions() 
 options.add_experimental_option("prefs", {
   "download.default_directory": r"/Users/fenilsuchak/Downloads",
@@ -49,17 +49,6 @@ header = {
 	'upgrade-insecure-requests':'1',
 	'user-agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36'
 }
-
-'''s = requests.Session()
-get_some = s.get('http://www.canva.com/login')
-soup = BeautifulSoup(get_some.text,'html.parser')
-tags = soup('input')
-for tag in tags:
-	if tag.get('type',None) == "hidden":
-		token = tag.get('value')
-		break
-for form in soup.find_all('form'):
-	print(form.attrs.get('action'))'''
 driver.get('http://www.canva.com/login')
 delay = 5
 WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.ID, 'email')))
@@ -69,32 +58,6 @@ print("done")
 username.send_keys('f20160541@goa.bits-pilani.ac.in')
 password.send_keys('Fenil@3510')
 driver.find_element_by_xpath("//*[@class='form__submitButton js-form__submitButton button buttonBlock buttonSubmit']").click()
-'''print("===================================")
-payload = {
-	'csrfToken' : token,
-	'email' : '***********',
-	'password' : '***********'
-}
-post_some = s.post('https://www.canva.com/login/canva?redirect=%2F',data=payload , headers = header)
-print(post_some.status_code)
-soupy = BeautifulSoup(post_some.text, 'html.parser')
-
-tags = soupy("a")
-
-
-header2 = {
-	'user-agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36'
-}
-designs = s.get('https://www.canva.com/', headers = header2)
-soup3 = BeautifulSoup(designs.text,'html.parser')
-tago = soup3("a")
-
-driver.get("https://www.canva.com")'''
-
-'''for c in s.cookies :
-    driver.add_cookie({'name': c.name, 'value': c.value, 'path': c.path, 'expiry': c.expires})'''
-
-'''driver.get("https://www.canva.com")'''
 for i,name in enumerate(names):
 	name = name.title()
 	driver.get("https://www.canva.com/design/DAC4kGq3Lvw/E7bYl2iLHWniESgkLr7-hQ/edit")
