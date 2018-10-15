@@ -1,3 +1,11 @@
 # Repository for scraping from canva.com to automate certificate making process.
-## Library used :- Selenium.
-##Write about position.txt and pos
+
+The primary python library used is Selenium.
+As the script is internet dependent, slow internet sometimes can cause the script go nuts sometimes.
+So when connection issue occurs, it is better to stop the script and run it again.
+`position.txt` keeps track of the index in the csv where the the script was terminated.
+When running a new csv, change position.txt value to 0.
+
+Enjoy!!!
+
+
