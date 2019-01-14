@@ -8,7 +8,7 @@ from email.mime.text import MIMEText
 from email import encoders
 
 MY_ADDRESS = 'cte.bitsgoa@gmail.com'
-PASSWORD = 'Truthisgod.8*	'
+PASSWORD = 'passwd goes here'
 
 
 
