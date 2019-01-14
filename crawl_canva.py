@@ -22,10 +22,10 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 import pandas as pd 
 import numpy as np
-entries = pd.read_csv('merged_sem2_17_18.csv')
+entries = pd.read_csv('Merged_List_New.csv')
 print(entries.columns)
-entries = entries[['Name ','Course']]
-entries = entries.append({'Name ':'Jesus','Course':'dog'},ignore_index=True)
+entries = entries[['Name','Course']]
+entries = entries.append({'Name':'Jesus','Course':'dog'},ignore_index=True)
 #Read a value of k, if k == 0 start with dog or start with k-1
 with open('position.txt', 'r') as f:
 	pos = f.read()
@@ -63,25 +63,31 @@ username.send_keys('f20160541@goa.bits-pilani.ac.in')
 password.send_keys('Fenil@3510')
 driver.find_element_by_xpath("//*[@class='form__submitButton js-form__submitButton button buttonBlock buttonSubmit']").click()
 for i in range(pos,entries.shape[0]):
-	name = entries['Name '][pos].title()
+	name = entries['Name'][pos].title()
 	course_name = entries['Course'][pos]
-	driver.get("https://www.canva.com/design/DAC4kGq3Lvw/E7bYl2iLHWniESgkLr7-hQ/edit")
+	print(name)
+	driver.get("https://www.canva.com/design/DAC4FS6sjqk/Rqw4umv6xb8fYy7ey1dazg/edit")
 	if pos == 0:
-		elem = driver.find_elements_by_xpath("//*[contains(text(), 'Jesus')]")
-		for j,elemo in enumerate(elem):
-			try:
-				print(name)
-				elemo.click()
+		elem = driver.find_elements_by_xpath("//*[contains(text(), 'Jesus God')]")
+		print(len(elem))
+		for j,elemo in enumerate(elem[-1::-1]):
+			if j == 1 or j == 2:
 				try:
-					time.sleep(2) #To be checked
-					drop_down = driver.find_elements_by_xpath("//*[@class='textInput']")[0].send_keys(name)
-					done_button = driver.find_elements_by_xpath("//*[@class='button buttonBlock done']")
-					done_button[0].click()
-					time.sleep(3) #To be checked
+					print(name)
+					name_test = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, "//*[@color='#ff5c5c']")))
+					print(name_test)
+					ActionChains(driver).move_to_element(name_test).click().perform()
+					driver.execute_script("arguments[0].innerHTML = '{} '".format(name), name_test)
 				except:
-					driver.execute_script("arguments[0].innerHTML = '{}'".format(name), elemo)
-			except:
-				continue
+					continue
+			elif j == 0:
+				time.sleep(2) #To be checked
+				elemo.click()
+				drop_down = driver.find_elements_by_xpath("//*[@class='textInput']")[0].send_keys(name)
+				print(drop_down)
+				done_button = driver.find_elements_by_xpath("//*[@class='button buttonBlock done']")
+				done_button[0].click()
+				time.sleep(3) #To be checked
 		menu2 = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, "//*[@class='element image hasMedia']")))
 		ActionChains(driver).move_to_element(menu2).double_click().perform()
 		k2 = driver.find_elements_by_xpath("//*[contains(text(), 'dog')]")
@@ -98,29 +104,34 @@ for i in range(pos,entries.shape[0]):
 				continue
 		menu2 = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, "//*[@class='element image hasMedia']")))
 		ActionChains(driver).move_to_element(menu2).double_click().perform()
+		time.sleep(5)
 		log_but2 = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, "//button[contains(@class, 'button editorActionExport prerollAnimation prerollDelay4')]")))
 		log_but2.click()
 		log_but3 = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, "//button[contains(@class, 'button buttonBlock buttonSubmittable exportPopOver__downloadButton')]")))
 		log_but3.click()
-		time.sleep(10)
+		time.sleep(12)
 	elif name == 'nan':
 		continue
 	else:
-		elem = driver.find_elements_by_xpath("//*[contains(text(), '{}')]".format(entries['Name '][pos-1].title()))
-		for j,elemo in enumerate(elem):
-			try:
-				print(name)
-				elemo.click()
+		elem = driver.find_elements_by_xpath("//*[contains(text(), '{}')]".format(entries['Name'][pos-1].title()))
+		for j,elemo in enumerate(elem[-1::-1]):
+			if j == 1 or j == 2:
 				try:
-					time.sleep(2) #To be checked
-					drop_down = driver.find_elements_by_xpath("//*[@class='textInput']")[0].send_keys(name)
-					done_button = driver.find_elements_by_xpath("//*[@class='button buttonBlock done']")
-					done_button[0].click()
-					time.sleep(3) #To be checked
+					print(name)
+					name_test = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, "//*[@color='#ff5c5c']")))
+					print(name_test)
+					ActionChains(driver).move_to_element(name_test).click().perform()
+					driver.execute_script("arguments[0].innerHTML = '{} '".format(name), name_test)
 				except:
-					driver.execute_script("arguments[0].innerHTML = '{}'".format(name), elemo)
-			except:
-				continue
+					continue
+			elif j == 0:
+				time.sleep(2) #To be checked
+				elemo.click()
+				drop_down = driver.find_elements_by_xpath("//*[@class='textInput']")[0].send_keys(name)
+				print(drop_down)
+				done_button = driver.find_elements_by_xpath("//*[@class='button buttonBlock done']")
+				done_button[0].click()
+				time.sleep(3) #To be checked
 		menu2 = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, "//*[@class='element image hasMedia']")))
 		ActionChains(driver).move_to_element(menu2).double_click().perform()
 		k2 = driver.find_elements_by_xpath("//*[contains(text(), '{} ')]".format(entries['Course'][pos-1]))
@@ -133,14 +144,13 @@ for i in range(pos,entries.shape[0]):
 			print(course_name)
 		menu2 = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, "//*[@class='element image hasMedia']")))
 		ActionChains(driver).move_to_element(menu2).double_click().perform()
+		time.sleep(5)
 		log_but2 = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, "//button[contains(@class, 'button editorActionExport prerollAnimation prerollDelay4')]")))
 		log_but2.click()
 		log_but3 = WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.XPATH, "//button[contains(@class, 'button buttonBlock buttonSubmittable exportPopOver__downloadButton')]")))
 		log_but3.click()
-		time.sleep(10)
+		time.sleep(12)
 	pos = pos + 1;
 	with open('position.txt','w') as f:
 		f.write('{}'.format(pos))
 	print("===================================")
-
-
