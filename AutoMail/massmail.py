@@ -1,12 +1,14 @@
 import smtplib
 import pandas as pd
 from string import Template
-
+import os.path as op
 from email.mime.multipart import MIMEMultipart
+from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
+from email import encoders
 
 MY_ADDRESS = 'cte.bitsgoa@gmail.com'
-PASSWORD = 'passwd daalna idhar'
+PASSWORD = 'Truthisgod.8*	'
 
 
 
@@ -63,9 +65,18 @@ def main():
         
         # add in the message body
         msg.attach(MIMEText(message, 'plain'))
-        msg.attach(MIMEText(file("cert.pdf").read()))
+
+        path = "cert.pdf"
+        part = MIMEBase('application', "octet-stream")
+        with open(path, 'rb') as file:
+            part.set_payload(file.read())
+        encoders.encode_base64(part)
+        part.add_header('Content-Disposition',
+                        'attachment; filename="{}"'.format(op.basename(path)))
+        msg.attach(part)
+     
         # send the message via the server set up earlier.
-        s.send_message(msg)
+        s.sendmail(MY_ADDRESS,email,msg.as_string())
         del msg
         
     # Terminate the SMTP session and close the connection
