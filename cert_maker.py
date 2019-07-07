@@ -1,17 +1,16 @@
-
 import numpy as np
 import pandas as pd
 import os
 from PIL import Image, ImageFont, ImageDraw, ImageEnhance
 from tqdm import tqdm
 import sys
-
 if __name__ == "__main__":
     arguments = sys.argv[1:]
-    assert len(arguments) != 0
+    assert len(arguments) != 6
     source_img = Image.open(arguments[0])
-
-    list_names = pd.read_csv(arguments[1])
+    swd_names = np.load(arguments[1])
+    list_names = pd.read_csv(arguments[5])
+    list_names['Name'] = swd_names
     if arguments[3] == 'Instructor':
         names = list_names.loc[(list_names['Course'] == arguments[2]) & (list_names['Instructor/Mentor'] == arguments[4]) ,'Name']
         names = list_names.loc[(list_names['Course'] == arguments[2]),['Name','Instructor/Mentor']]

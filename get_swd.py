@@ -45,13 +45,12 @@ driver = webdriver.Chrome('/Users/fenilsuchak/Desktop/scraping_cte/chromedriver'
 driver.get('https://swd.bits-goa.ac.in/')
 time.sleep(2)
 full_pos = pos
-print(full_pos)
 ids_check = ids[full_pos:]
 for i,elems in tqdm(enumerate(ids_check)):
 	driver.find_element_by_id("right_search").click()
 	time.sleep(3)
 	search_for = driver.find_element_by_name("id")
-	search_for.send_keys(elems) #Note wont work for dualites. SQL querying to be added.
+	search_for.send_keys(elems) #Note, wont work for dualites. SQL querying to be added.
 	final_search = driver.find_elements_by_xpath("//*[@value='Search']")
 	final_search[0].click()
 	results = driver.find_elements_by_xpath("//*[@id='contact1']")
@@ -60,5 +59,5 @@ for i,elems in tqdm(enumerate(ids_check)):
 	with open('position.txt', 'w') as f:
 		f.write('{}'.format(pos))
 	np.save('swd_names.npy',list_of_names)
-	print(len(list_of_names))
 assert(len(list_of_names) == len(ids))
+
