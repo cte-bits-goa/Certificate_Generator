@@ -22,15 +22,15 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 import pandas as pd 
 import numpy as np
-entries = pd.read_csv('Completed_Students.csv')
+entries = pd.read_csv('quant.csv')
 print(entries.columns)
+sys.exit()
 entries = entries[['Name','Course']]
 entries = entries.append({'Name':'Jesus God','Course':'dog monk'},ignore_index=True)
 #Read a value of k, if k == 0 start with dog or start with k-1
 with open('position.txt', 'r') as f:
 	pos = f.read()
 pos = int(pos)
-print(pos)
 options = webdriver.ChromeOptions() 
 options.add_experimental_option("prefs", {
   "download.default_directory": r"/Users/fenilsuchak/Downloads",
@@ -66,7 +66,7 @@ for i in range(pos,entries.shape[0]):
 	print(name)
 	driver.get("https://www.canva.com/design/DAC4FS6sjqk/Rqw4umv6xb8fYy7ey1dazg/edit")
 	if pos == 0:
-		elem = driver.find_elements_by_xpath("//*[contains(text(), 'Jesus God')]")
+		elem = driver.find_elements_by_xpath("//*[contains(text(), 'Jesus')]")
 		print(len(elem))
 		for j,elemo in enumerate(elem[-1::-1]):
 			if j == 1 or j == 2:
