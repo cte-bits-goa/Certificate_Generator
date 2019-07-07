@@ -1,9 +1,4 @@
 
-# coding: utf-8
-
-# In[3]:
-
-
 import numpy as np
 import pandas as pd
 import os
@@ -43,22 +38,3 @@ if __name__ == "__main__":
         y = (y2 - y1 - h)/2 + y1
         draw.text((x, y), elem, align = 'center', fill = 'red', font = font)
         temp_img.save(arguments[2] + ' ' + arguments[4] + '/{}.png'.format(elem))
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
