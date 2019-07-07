@@ -1,0 +1,15 @@
+Instructions :
+	
+	1.Write the message template where {NAME}, {COURSE} will be replaced by names and the course the certs are for.
+	
+	2.Run the script after checking the credentials.
+	
+	3.Type the name of the folder containing the certs when prompted for folder.
+	
+	4.Enter the name of the course the certs are for in 'Course.txt' in Text_files (if not automated)
+	
+	5.The details will be printed, cross check if they are correct and press 0 to confirm
+	
+	6.The script will auto-mail and for each sent mail the corresponding name will be printed, it will print the name of the latest person to recieve the mail.
+	
+	7.If completed a folder named complete will be created and inputfile.csv will be removed if in progress the csv will get updated by its own.
