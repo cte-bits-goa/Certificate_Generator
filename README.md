@@ -22,7 +22,7 @@ A numpy array of names extracted from SWD will be created and saved as `swd_name
 
 Example
 
-`python cert_maker.py "temp_name.png" "swd_names.npy" "Introduction to Robotics" "Instructor" "Instructor"`
+`python cert_maker.py "temp_name.png" "swd_names.npy" "Introduction to Robotics" "Instructor" "Instructor" "original_csv.csv"`
 
 A folder with name of the course and type of certificate will be created.
 
