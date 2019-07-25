@@ -9,6 +9,7 @@ import sys
 from scrapy.http import FormRequest
 from fake_useragent import UserAgent
 import json
+import os
 from selenium import webdriver
 from functools import partial
 from parsel.selector import Selector
@@ -30,8 +31,9 @@ except:
 	np.save('swd_names.npy',just_once)
 	list_of_names = list(np.load('swd_names.npy'))
 
-entries = pd.read_csv('quant.csv')
-ids = entries['BITS ID'].values
+entries = pd.read_csv('Instructors list sem2 2018-19 - Sheet2.csv')
+names = entries['Name'].values
+ids = entries['ID'].values
 options = webdriver.ChromeOptions() 
 options.add_experimental_option("prefs", {
   "download.default_directory": r"/Users/fenilsuchak/Downloads",
@@ -41,23 +43,33 @@ options.add_experimental_option("prefs", {
 })
 with open('position.txt', 'r') as f:
 		pos = int(f.read())
-driver = webdriver.Chrome('/Users/fenilsuchak/Desktop/scraping_cte/chromedriver' , chrome_options = options)
+driver = webdriver.Chrome(os.path.abspath('chromedriver') , chrome_options = options)
 driver.get('https://swd.bits-goa.ac.in/')
 time.sleep(2)
 full_pos = pos
 ids_check = ids[full_pos:]
-for i,elems in tqdm(enumerate(ids_check)):
-	driver.find_element_by_id("right_search").click()
+for i,elems in enumerate(ids_check):
+	print(i, names[pos])
+	driver.find_elements_by_id("right_search")[0].click()
 	time.sleep(3)
 	search_for = driver.find_element_by_name("id")
-	search_for.send_keys(elems) #Note, wont work for dualites. SQL querying to be added.
-	final_search = driver.find_elements_by_xpath("//*[@value='Search']")
-	final_search[0].click()
-	results = driver.find_elements_by_xpath("//*[@id='contact1']")
+	try:
+		search_for.send_keys(elems)
+		final_search = driver.find_elements_by_xpath("//*[@value='Search']")
+		final_search[0].click()
+		results = driver.find_elements_by_xpath("//*[@id='contact1']")
+	except:
+		list_of_names.append((elems,names[pos]))
+		pos = pos+1
+		with open('position.txt', 'w') as f:
+			f.write('{}'.format(pos))
+		np.save('swd_names.npy',list_of_names)
+		continue
 	list_of_names.append((elems,results[2].text.title()))
-	pos = i+full_pos
+	pos = pos+1
 	with open('position.txt', 'w') as f:
 		f.write('{}'.format(pos))
 	np.save('swd_names.npy',list_of_names)
+print(len(list_of_names))
+print(len(ids))
 assert(len(list_of_names) == len(ids))
-

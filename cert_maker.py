@@ -6,17 +6,16 @@ from tqdm import tqdm
 import sys
 if __name__ == "__main__":
     arguments = sys.argv[1:]
-    assert len(arguments) != 6
+    assert len(arguments) == 6
     source_img = Image.open(arguments[0])
     swd_names = np.load(arguments[1])
     list_names = pd.read_csv(arguments[5])
-    list_names['Name'] = swd_names
+    print(list_names['Course'])
+    list_names['Name'] = swd_names[:,1]
     if arguments[3] == 'Instructor':
-        names = list_names.loc[(list_names['Course'] == arguments[2]) & (list_names['Instructor/Mentor'] == arguments[4]) ,'Name']
-        names = list_names.loc[(list_names['Course'] == arguments[2]),['Name','Instructor/Mentor']]
+        names = list_names.loc[(list_names['Course'] == arguments[2]) & (list_names['Instructor/Mentor'] == arguments[4]), 'Name']
     elif arguments[3] == 'Student':
         names = list_names.loc[(list_names['Course'] == arguments[2]) & (list_names['Type'] == arguments[4]) ,'Name']
-        names = list_names.loc[(list_names['Course'] == arguments[2]),['Name','Type']]
     else:
         raise Exception('Invalid Argument at position 4 please refer the docs')
     draw = ImageDraw.Draw(source_img)
@@ -24,6 +23,7 @@ if __name__ == "__main__":
     x1, y1, x2, y2 = bounding_box  # For easy reading
     font = ImageFont.truetype('PTF55F.ttf', size=30)
     names_list = list(names)
+    print(names_list)
     try:
         os.mkdir(arguments[2] + ' ' + arguments[4])
     except FileExistsError:
