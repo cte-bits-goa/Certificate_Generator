@@ -14,8 +14,10 @@ if __name__ == "__main__":
     list_names['Name'] = swd_names[:,1]
     if arguments[3] == 'Instructor':
         names = list_names.loc[(list_names['Course'] == arguments[2]) & (list_names['Instructor/Mentor'] == arguments[4]), 'Name']
+        ids = list_names.loc[(list_names['Course'] == arguments[2]) & (list_names['Instructor/Mentor'] == arguments[4]), 'ID']
     elif arguments[3] == 'Student':
         names = list_names.loc[(list_names['Course'] == arguments[2]) & (list_names['Type'] == arguments[4]) ,'Name']
+        ids = list_names.loc[(list_names['Course'] == arguments[2]) & (list_names['Type'] == arguments[4]) ,'ID']
     else:
         raise Exception('Invalid Argument at position 4 please refer the docs')
     draw = ImageDraw.Draw(source_img)
@@ -23,12 +25,13 @@ if __name__ == "__main__":
     x1, y1, x2, y2 = bounding_box  # For easy reading
     font = ImageFont.truetype('PTF55F.ttf', size=30)
     names_list = list(names)
+    ids = list(ids)
     print(names_list)
     try:
         os.mkdir(arguments[2] + ' ' + arguments[4])
     except FileExistsError:
         pass
-    for elem in tqdm(names_list):
+    for i,elem in tqdm(enumerate(names_list)):
         print(elem)
         temp_img = source_img.copy()
         draw = ImageDraw.Draw(temp_img)
@@ -36,4 +39,4 @@ if __name__ == "__main__":
         x = (x2 - x1 - w)/2 + x1
         y = (y2 - y1 - h)/2 + y1
         draw.text((x, y), elem, align = 'center', fill = 'red', font = font)
-        temp_img.save(arguments[2] + ' ' + arguments[4] + '/{}.png'.format(elem))
+        temp_img.save(arguments[2] + ' ' + arguments[4] + '/{}.png'.format(ids[i]))
