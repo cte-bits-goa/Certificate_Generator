@@ -16,8 +16,8 @@ if __name__ == "__main__":
         names = list_names.loc[(list_names['Course'] == arguments[2]) & (list_names['Instructor/Mentor'] == arguments[4]), 'Name']
         ids = list_names.loc[(list_names['Course'] == arguments[2]) & (list_names['Instructor/Mentor'] == arguments[4]), 'ID']
     elif arguments[3] == 'Student':
-        names = list_names.loc[(list_names['Course'] == arguments[2]) & (list_names['Type'] == arguments[4]) ,'Name']
-        ids = list_names.loc[(list_names['Course'] == arguments[2]) & (list_names['Type'] == arguments[4]) ,'ID']
+        names = list_names.loc[(list_names['Course'] == arguments[2]),'Name']
+        ids = list_names.loc[(list_names['Course'] == arguments[2]),'ID']
     else:
         raise Exception('Invalid Argument at position 4 please refer the docs')
     draw = ImageDraw.Draw(source_img)
