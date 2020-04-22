@@ -2,41 +2,94 @@ import numpy as np
 import pandas as pd
 import os
 from PIL import Image, ImageFont, ImageDraw, ImageEnhance
-from tqdm import tqdm
 import sys
+import textwrap
 if __name__ == "__main__":
+    
+    '''
+    SWD WebScraper for names has been removed in this version due to its revamp.
+    The name correction from SWD will be incorporated later
+    '''
+
+
+    #Take args from command line
     arguments = sys.argv[1:]
-    assert len(arguments) == 6
+
+    #Take Three inputs, The src image or template, CSV which consists of User Data and The common message to be printed
+    assert len(arguments) == 3
+
+    #source img
     source_img = Image.open(arguments[0])
-    swd_names = np.load(arguments[1])
-    list_names = pd.read_csv(arguments[5])
-    print(list_names['Course'])
-    list_names['Name'] = swd_names[:,1]
-    if arguments[3] == 'Instructor':
-        names = list_names.loc[(list_names['Course'] == arguments[2]) & (list_names['Instructor/Mentor'] == arguments[4]), 'Name']
-        ids = list_names.loc[(list_names['Course'] == arguments[2]) & (list_names['Instructor/Mentor'] == arguments[4]), 'ID']
-    elif arguments[3] == 'Student':
-        names = list_names.loc[(list_names['Course'] == arguments[2]),'Name']
-        ids = list_names.loc[(list_names['Course'] == arguments[2]),'ID']
-    else:
-        raise Exception('Invalid Argument at position 4 please refer the docs')
+
+    #CSV Modify these variables for columns of CSV if required, Otherwise stick to the notation
+    csv = pd.read_csv(arguments[1])
+    names=csv['Name']
+    courses=csv['Course']
+    positions=csv['Position']
+    ids=csv['ID']
+
+    #Message, for each arguement to be available in text replace it with tokens
+    #e.g. Look in the loop, [1] and [2] are used for the instructor / mentor status and the course name respectively
+    temp=open(arguments[2]).read()
+
+    #Create a PILLOW image
     draw = ImageDraw.Draw(source_img)
+
+    #Create a bounding box for the coordinates based on pixel offset
     bounding_box = [300, 320, 800, 385]
     x1, y1, x2, y2 = bounding_box  # For easy reading
+
+    #Import fonts as available in the directory
     font = ImageFont.truetype('PTF55F.ttf', size=30)
-    names_list = list(names)
-    ids = list(ids)
-    print(names_list)
-    try:
-        os.mkdir(arguments[2] + ' ' + arguments[4])
-    except FileExistsError:
-        pass
-    for i,elem in tqdm(enumerate(names_list)):
-        print(elem)
+    font_ = ImageFont.truetype('arial.ttf', size=30)
+
+    #zip and iterate through all lists/columns in the csv
+    for name,id,position,course in zip(names,ids,positions,courses):
+        
+        #Create a temporary image
         temp_img = source_img.copy()
+
+        #Replace your variables with assigned tokens in text
+        message=temp.replace('[1]',position)
+        message=message.replace('[2]',course)
+        
+        #Copy the temp img to a PIL draw board
         draw = ImageDraw.Draw(temp_img)
-        w, h = draw.textsize(elem, font=font)
-        x = (x2 - x1 - w)/2 + x1
+        w, h = draw.textsize(name, font=font)
+        
+        #Adjust these coordinates to fix the text, this is under dev due to non constant templates you will have to ecperiment on a small batch
+        #X and Y here represent the center coords for name of the cert reciever.
+        ## CUSTOM ##
+        x = (x2 - x1 - w)/2 + x1 - 20
         y = (y2 - y1 - h)/2 + y1
-        draw.text((x, y), elem, align = 'center', fill = 'red', font = font)
-        temp_img.save(arguments[2] + ' ' + arguments[4] + '/{}.png'.format(ids[i]))
+
+        #Draw the name over, color for text can be changed with fill, custom hex value can also be passed
+        draw.text((x, y), name, align = 'center', fill = 'red', font = font)
+        
+        #Iterate adjustable coordinates down to print the message
+        ## CUSTOM ##
+        x=x1/3
+        y=y+45
+
+        #Wrap the text in different lines color for text can be changed with fill, custom hex value can also be passed
+        ## CUSTOM ##
+        message = '\n'.join(textwrap.wrap(message, 65, break_long_words=False))
+        
+        #Print the message on the certificate.
+        draw.text((x, y), message, align = 'center', fill = (80,163,180), font = font)
+        
+        #Save the certificates to ID_CourseName.png, make sure you use ID and Course Name both to avoid duplication.
+        temp_img.save('certs/{}_{}.png'.format(id,course))
+
+        #Logger to keep track
+        print("{} {}".format(id, name))
+
+        '''
+        import time
+        time.sleep(0.1) #DNS server block
+
+        #Go to Mailer script for documnetation github - @someshsingh22
+        mailer.mail(id,name,message_email)
+
+        This pipeline feature has been removed since certificates are sent through websites, For mass mailing use automailer from the parent directory
+        '''
