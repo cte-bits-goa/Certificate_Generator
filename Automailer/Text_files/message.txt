@@ -1,3 +1,0 @@
-Dear {NAME},
-Congratulations on completing the {COURSE} course successfully.
-Please find your certificate of Completion attached to this mail.
