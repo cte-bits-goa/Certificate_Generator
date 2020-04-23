@@ -4,6 +4,9 @@ import os
 from PIL import Image, ImageFont, ImageDraw, ImageEnhance
 import sys
 import textwrap
+import logging
+import os
+
 if __name__ == "__main__":
     
     '''
@@ -16,7 +19,7 @@ if __name__ == "__main__":
     arguments = sys.argv[1:]
 
     #Take Three inputs, The src image or template, CSV which consists of User Data and The common message to be printed
-    assert len(arguments) == 3
+    assert len(arguments) == 3, 'Arguments not provided Properly'     
 
     #source img
     source_img = Image.open(arguments[0])
@@ -42,6 +45,14 @@ if __name__ == "__main__":
     #Import fonts as available in the directory
     font = ImageFont.truetype('PTF55F.ttf', size=30)
     font_ = ImageFont.truetype('arial.ttf', size=30)
+
+
+    pwd = os.getcwd()
+    pwd.replace('\\', '/') #takes care of windows format
+    filename = pwd + '/info.log' 
+
+    logging.basicConfig(level=logging.INFO, filename=filename, filemode='w', format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+
 
     #zip and iterate through all lists/columns in the csv
     for name,id,position,course in zip(names,ids,positions,courses):
@@ -82,7 +93,7 @@ if __name__ == "__main__":
         temp_img.save('certs/{}_{}.png'.format(id,course))
 
         #Logger to keep track
-        print("{} {}".format(id, name))
+        logging.info("{} {} - Completed".format(id, name))
 
         '''
         import time
