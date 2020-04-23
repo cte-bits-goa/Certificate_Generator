@@ -104,3 +104,4 @@ if __name__ == "__main__":
 
         This pipeline feature has been removed since certificates are sent through websites, For mass mailing use automailer from the parent directory
         '''
+    logging.critical('Completed!')
