@@ -6,12 +6,13 @@ import sys
 import textwrap
 import logging
 import os
+from tqdm import tqdm
+from swd_wrapper import get_swd
 
 if __name__ == "__main__":
     
     '''
-    SWD WebScraper for names has been removed in this version due to its revamp.
-    The name correction from SWD will be incorporated later
+    A new SWD scrapper has been added which is integrated with the same file
     '''
 
 
@@ -25,7 +26,8 @@ if __name__ == "__main__":
     source_img = Image.open(arguments[0])
 
     #CSV Modify these variables for columns of CSV if required, Otherwise stick to the notation
-    csv = pd.read_csv(arguments[1])
+    #csv = pd.read_csv(arguments[1])
+    csv = get_swd(arguments[1])
     names=csv['Name']
     courses=csv['Course']
     positions=csv['Position']
@@ -55,15 +57,19 @@ if __name__ == "__main__":
 
 
     #zip and iterate through all lists/columns in the csv
-    for name,id,position,course in zip(names,ids,positions,courses):
+    for name,id,position,course in tqdm(zip(names,ids,positions,courses)):
         
         #Create a temporary image
         temp_img = source_img.copy()
 
         #Replace your variables with assigned tokens in text
+        if position.lower() == "instructor":
+            position = "an " + position
+        elif position.lower() == "mentor":
+            position = "a " + position
         message=temp.replace('[1]',position)
         message=message.replace('[2]',course)
-        
+        name = name.title()
         #Copy the temp img to a PIL draw board
         draw = ImageDraw.Draw(temp_img)
         w, h = draw.textsize(name, font=font)
