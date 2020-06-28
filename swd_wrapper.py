@@ -7,6 +7,7 @@ import time
 import pandas as pd
 import logging
 import os
+import getpass
 
 
 def get_creds(instructor_data):
@@ -21,7 +22,6 @@ def get_creds(instructor_data):
     names = instructor_data["Name"]
 
     for i in tqdm(range(len(ids))):
-
         try:
             id_button = driver.find_elements_by_xpath('//*[@id="bitsId"]')[0]
             search_button = driver.find_element_by_xpath("/html/body/div[1]/div/div/div/div/form/div[4]/i/input")
@@ -51,12 +51,19 @@ def get_swd(instructor_data, resave=True):
     """
 
     print("Scrapping in progress")
+    print("Inorder to search names, the new SWD mandates login. Hence your username and password are required.")
+    
+    username_in = str(input("Enter your username(case-sensitive)"))
+    password_in = str(getpass.getpass("Enter your password(case-sensitive)"))
 
     pwd = os.getcwd()
     #takes care of windows format
     pwd.replace('\\', '/') 
     filename = pwd + '/scrapper_info.log'
+
+    # Logger
     logging.basicConfig(level=logging.INFO, filename=filename, filemode='w', format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+
     # Scrapper info
     options = Options()
     options.add_argument("--disable-infobars")
@@ -67,8 +74,8 @@ def get_swd(instructor_data, resave=True):
     # After you get the website, you have to enter your credentials to login
     username = driver.find_element_by_name("username")
     password = driver.find_element_by_name("password")
-    username.send_keys("f20190390")
-    password.send_keys("ammapappa")
+    username.send_keys(username_in)
+    password.send_keys(password_in)
     login = driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/form/button/span")
     login.submit()
 
