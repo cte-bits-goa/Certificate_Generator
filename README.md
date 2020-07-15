@@ -8,22 +8,26 @@ Make changes in this canva template (restricted access) [here](https://www.canva
 Download the template and save it in the Certificate_Generator Folder (please use .png format)
 
 
-Get the CSV of certificate receivers to be filled in the above template. For less error in names feed the CSV to `get_swd.py` like
+Get the CSV of certificate receivers to be filled in the above template. The csv should contain the following parameters per entry.
+1. Name
+2. ID
+3. Course
+4. Instructor/Mentor
 
-`python get_swd.py name_of_file.csv`
-
-A numpy array of names extracted from SWD will be created and saved as `swd_names.npy`. Then call `cert_maker.py` arguments as
-
-1. Name of template image
-2. Name numpy array of names as obtained ie. `swd_names.npy`
-3. Name of Course
-4. Type of certificate ie. Instructor/Student
-5. Sub-type of certificate ie. Instructor/Mentor in case of Instructor & Completion/Participation incase of Student
+To generate certificates, run the cert_maker python file. To file requires three arguments in the following order
+1. Certificate template
+2. Instructor data in the csv format
+3. Message to be entered 
 
 Example
 
-`python cert_maker.py "temp_name.png" "swd_names.npy" "Introduction to Robotics" "Instructor" "Instructor" "original_csv.csv"`
+`python cert_maker.py template.png instructor_data.csv message.txt`
 
-A folder with name of the course and type of certificate will be created.
+Here:
+1. `template.png` - the certificate template.
+2. `instructor_data.csv` - csv file with instructor data
+3. `message.txt` - file containing the message 
+
+A folder named certs with certificates will be generated.
 
 Further feed to automail.
