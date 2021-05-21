@@ -1,0 +1,71 @@
+\documentclass[fontsize=18pt,paper=a4,DIV=calc]{scrartcl}              %class
+\usepackage[landscape,left=2cm,right=1cm,top=0.75cm,bottom=2cm]{geometry} %for layout
+\usepackage{setspace} % for spacing between lines
+\usepackage{graphicx}         %for including images
+\usepackage{eso-pic}     %package for including background image
+\usepackage{color}
+\usepackage{hyperref}
+\definecolor{bluetext}{rgb}{0.1796875, 0.47265625, 0.55859375} %For changing color take the rgb values and divide by 256. 
+% Example RGB(100, 150, 200) --> (0.39, .59, .78)
+
+\definecolor{lightgrey}{rgb}{0.525,0.525,0.525}
+%---------------------------------------------------------------
+ \newcommand\BackgroundPic{
+ \put(0,0){
+ \parbox[b][\paperheight]{\paperwidth}{%
+ \vfill
+ \centering
+ \includegraphics[width=\paperwidth,height=\paperheight]{cert.pdf}              % here include background image (You can change the background by changing 'cert.pdf' to desired background
+ \vfill
+ }}}
+%----------------------------------------------------------------
+%=============================
+\usepackage{datatool}  % This package is required to include database file as .csv 
+\DTLloaddb{name}{data.csv}       % data.csv includes information from database
+ %=============================
+%=============================
+\def\signature#1#2{\parbox[b]{1in}{\smash{#1}\vskip12pt}
+\noindent\noindent\parbox[t]{2.8in}{\hspace{-0.55cm}\shortstack{\vrule width 3.15in height 0.4pt\\\footnotesize#2}}}
+\def\sigskip{\vskip0.4in plus 0.1in}
+        \def\beginskip{\vskip0.5875in plus 0.1in}
+%=============================
+ \begin{document}
+\AddToShipoutPicture{\BackgroundPic}     % here background image is called
+%=============================
+\DTLforeach{name}{
+	\name=Name, \course=Dep, \certype=Type}{ %defining variables from the csv file 
+	%=============================
+	\noindent
+	\begin{minipage}[l]{5.7 in}
+		\includegraphics[width=.2\linewidth]{cte-logo.png}  %Here include left side image %change width the resize logo
+		\\\\\\
+		{{
+			\onehalfspacing
+			\\
+			{\bfseries \Huge \textbf{CERTIFICATE OF} \MakeUppercase{\certype}}\\\\%takes Certificate type from csv file and converts it into Upper case
+			{\Huge Awarded to}\\\\
+			{\Huge\bfseries\color{bluetext} \name}\\
+			\\
+			\doublespacing
+			\arial {\medium For completing the course
+				{\course}  which was conducted as a part of the Centre for Technical Education, BITS Pilani Goa Campus from January 2020 to June 2020.
+			}
+		}}
+	\end{minipage}
+	\hfill
+	
+	\noindent
+	%\beginskip
+	{\singlespacing 
+		\vfill
+		%Signature Section
+		\begin{minipage}[l]{8.8in}
+		{\hspace{-0.55cm}\shortstack{\vrule width 3.15in height 0.4pt\\\footnotesize}}
+		
+			{\hspace{-0.55cm}\textbf{\footnotesize PROF. BHARAT M DESHAPANDE (HEAD, CTE)}\\ \vspace{0.3cm}{\hspace{-0.55cm}\color{lightgrey}{BITS PILANI KK BIRLA GOA CAMPUS}}}
+			% you can change the fontsize by using "tiny,footnotesize,small,medium,large"
+		\end{minipage}}
+	
+	%=============================
+	\pagebreak}
+\end{document}
