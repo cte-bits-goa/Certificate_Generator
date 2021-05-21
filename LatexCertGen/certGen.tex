@@ -15,13 +15,13 @@
  \parbox[b][\paperheight]{\paperwidth}{%
  \vfill
  \centering
- \includegraphics[width=\paperwidth,height=\paperheight]{cert.pdf}              % here include background image (You can change the background by changing 'cert.pdf' to desired background
+ \includegraphics[width=\paperwidth,height=\paperheight]{background.pdf}              % here include background image (You can change the background by changing 'cert.pdf' to desired background
  \vfill
  }}}
 %----------------------------------------------------------------
 %=============================
 \usepackage{datatool}  % This package is required to include database file as .csv 
-\DTLloaddb{name}{data.csv}       % data.csv includes information from database
+\DTLloaddb{name}{Records.csv}       % data.csv includes information from database
  %=============================
 %=============================
 \def\signature#1#2{\parbox[b]{1in}{\smash{#1}\vskip12pt}
@@ -33,11 +33,11 @@
 \AddToShipoutPicture{\BackgroundPic}     % here background image is called
 %=============================
 \DTLforeach{name}{
-	\name=Name, \course=Dep, \certype=Type}{ %defining variables from the csv file 
+	\name=Name, \course=Dep, \certype=Type, \authlink=CERT_ID}{ %defining variables from the csv file 
 	%=============================
 	\noindent
 	\begin{minipage}[l]{5.7 in}
-		\includegraphics[width=.2\linewidth]{cte-logo.png}  %Here include left side image %change width the resize logo
+		\includegraphics[width=.2\linewidth]{CTE-logo.png}  %Here include left side image %change width the resize logo
 		\\\\\\
 		{{
 			\onehalfspacing
@@ -50,6 +50,9 @@
 			\arial {\medium For completing the course
 				{\course}  which was conducted as a part of the Centre for Technical Education, BITS Pilani Goa Campus from January 2020 to June 2020.
 			}
+			{\\\\\color{lightgrey}\href{\authlink}{\emph{\textbf{Authentication}}}
+			%For simple things like Bold Italics switch to Rich Text
+		}
 		}}
 	\end{minipage}
 	\hfill
