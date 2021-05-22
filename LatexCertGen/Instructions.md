@@ -35,3 +35,11 @@ To run the command to convert tex to pdf
    Follow instructions on MacTex website
 3. Windows
    MicTex and Lyx are both Gui programs with elements to convert .tex to .pdf
+
+Process:
+
+1. First run the preprocess.py script with a Records.csv file in the same directory
+
+2.When running latex file make sure to have the CTE_logo.png and FinalRecords.csv in the same directory and make sure to run the TexLive command after you cd to the folder containing all these files
+
+3.Finally run the splitter.py to split the pdf generated after step2 and go to the Certificates folder to find all certificates which are labelled as CertID_ID.pdf

@@ -33,7 +33,7 @@
 \AddToShipoutPicture{\BackgroundPic}     % here background image is called
 %=============================
 \DTLforeach{name}{
-	\name=Name, \course=Dep, \certype=Type, \authlink=CERT_ID}{ %defining variables from the csv file 
+	\name=Name, \course=Course, \certype=Type, \authlink=CertID}{ %defining variables from the csv file 
 	%=============================
 	\noindent
 	\begin{minipage}[l]{5.7 in}
@@ -47,8 +47,8 @@
 			{\Huge\bfseries\color{bluetext} \name}\\
 			\\
 			\doublespacing
-			\arial {\medium For completing the course
-				{\course}  which was conducted as a part of the Centre for Technical Education, BITS Pilani Goa Campus from January 2020 to June 2020.
+			\arial {\medium For completing the course {\textbf{ \course}}
+				  which was conducted as a part of the Centre for Technical Education, BITS Pilani Goa Campus from January 2020 to June 2020.
 			}
 			{\\\\\color{lightgrey}\href{\authlink}{\emph{\textbf{Authentication}}}
 			%For simple things like Bold Italics switch to Rich Text
