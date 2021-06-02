@@ -21,7 +21,7 @@
 %----------------------------------------------------------------
 %=============================
 \usepackage{datatool}  % This package is required to include database file as .csv 
-\DTLloaddb{name}{Records.csv}       % data.csv includes information from database
+\DTLloaddb{name}{FinalRecords.csv}       % data.csv includes information from database
  %=============================
 %=============================
 \def\signature#1#2{\parbox[b]{1in}{\smash{#1}\vskip12pt}
@@ -37,18 +37,18 @@
 	%=============================
 	\noindent
 	\begin{minipage}[l]{5.7 in}
-		\includegraphics[width=.2\linewidth]{CTE-logo.png}  %Here include left side image %change width the resize logo
-		\\\\\\
+		\href{https://bpgc-cte.org/}{\includegraphics[width=.2\linewidth]{CTE-logo.png}}  %Here include left side image %change width the resize logo
+		\\
 		{{
-			\onehalfspacing
-			\\
-			{\bfseries \Huge \textbf{CERTIFICATE OF} \MakeUppercase{\certype}}\\\\%takes Certificate type from csv file and converts it into Upper case
+			
+			
+			{\bfseries \large \textbf{CERTIFICATE OF} \MakeUppercase{\certype}}\\\\%takes Certificate type from csv file and converts it into Upper case
 			{\Huge Awarded to}\\\\
 			{\Huge\bfseries\color{bluetext} \name}\\
 			\\
 			\doublespacing
-			\arial {\medium For completing the course {\textbf{ \course}}
-				  which was conducted as a part of the Centre for Technical Education, BITS Pilani Goa Campus from January 2020 to June 2020.
+			\arial {\medium For completing the course{\textbf{ \course}}
+				  which was conducted as a part of the Centre for Technical Education, BITS Pilani Goa Campus from January 2021 to June 2021.
 			}
 			{\\\\\color{lightgrey}\href{\authlink}{\emph{\textbf{Authentication}}}
 			%For simple things like Bold Italics switch to Rich Text
@@ -63,9 +63,12 @@
 		\vfill
 		%Signature Section
 		\begin{minipage}[l]{8.8in}
-		{\hspace{-0.55cm}\shortstack{\vrule width 3.15in height 0.4pt\\\footnotesize}}
 		
-			{\hspace{-0.55cm}\textbf{\footnotesize PROF. BHARAT M DESHAPANDE (HEAD, CTE)}\\ \vspace{0.3cm}{\hspace{-0.55cm}\color{lightgrey}{BITS PILANI KK BIRLA GOA CAMPUS}}}
+		{\hspace{-0.55cm}\includegraphics[width=.1\linewidth,]{sign.pdf}}
+
+		  {\hspace{-0.55cm}\shortstack{\vrule width 3.15in height 0.2pt\\\footnotesize}}
+		
+			{\hspace{-0.55cm}{\textbf {\footnotesize PROF. BHARAT M DESHAPANDE (HEAD, CTE})}\\ \vspace{0.3cm}{\hspace{-0.55cm}\color{lightgrey}{\footnotesize BITS PILANI KK BIRLA GOA CAMPUS}}}
 			% you can change the fontsize by using "tiny,footnotesize,small,medium,large"
 		\end{minipage}}
 	
