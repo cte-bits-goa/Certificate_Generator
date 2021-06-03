@@ -1,52 +1,74 @@
-TexLive Package is used to convert the tex file into Pdf
+# Instructions to Use CTE Certificate Generator
+TexLive Package is used to run the .tex files
 
-The original tex file was created using a live online tex to pdf converter overleaf.com
+## Requirements
+### 1. Texlive Installation
 
-To install TexLive
+#### Linux:
 
-1.  on linux:
+```
+sudo apt-get install Texlive
+#incase you face any errors on missing packages
+sudo apt-get install texlive-latex-extra
+```
 
-    sudo apt-get install Texlive
+#### OSX
+Install [Mac-Tex](https://tug.org/mactex/mactex-download.html)
 
-    (incase you face any errors on some packages not being installed also type :
-    sudo apt-get install texlive-latex-extra)
+#### Windows
+Download either of 
+* TexLive
+* MicTex
+* Lyx
+(Advice: mictex and lyx may take a long while to install.)
 
-2.  for MacOS you could use a similar program called
-    Mactex
-    https://tug.org/mactex/mactex-download.html
+#### Overleaf
+you can also run the tex file online on the website [Overleaf](https://www.overleaf.com "Overleaf home")
 
-3.  for Windows users try
-    TexLive
-    MicTex
-    Lyx
-    (Advice: mictex and lyx may take a long while to install.)
+### 2. Dependencies
+```bash
+pip install -f requirements.txt
+```
 
-4.  you can also run the tex file online on the website [Overleaf](https://www.overleaf.com "Overleaf home")
-    The csv file is used for data entry into certGen.tex which then outputs a PDF containing all the certificates.
 
-To run the command to convert tex to pdf
+## Certificate Chunk
+Files Required
+1. Background Template - ./cert.pdf
+2. CTE Logo - ./CTE_logo.png
+3. CSV - ./FinalRecords.csv
+4. Signature - ./sign.pdf
 
-1. Linux
-   try
-   'pdflatex --output-directory=../otherdir /path/to/myfile.tex' in the terminal.
-   ->IMPORTANT - When running this command make sure that you are in the directory containing the .tex file as well as other files which may be needed to run it (Eg: Records.csv,etc)
-2. MacOs
-   Follow instructions on MacTex website
-3. Windows
-   MicTex and Lyx are both GUI programs with elements to convert .tex to .pdf
+### Linux
+```
+pdflatex --output-directory=../otherdir /path/to/myfile.tex
+```
+### MacOs
+Follow instructions on MacTex website
+### Windows
+MicTex and Lyx are both GUI programs with elements to convert .tex to .pdf
+### Overleaf
+Compile and Download PDF
 
-Process:
 
-1.First run the preprocess.py script with a Records.csv file in the same directory which outputs a FinalRecords.csv file.
 
-2.When running latex file make sure to have the CTE_logo.png and FinalRecords.csv in the same directory and make sure to run the TexLive command after you cd to the folder containing all these files
 
-3.Finally run the splitter.py to split the pdf generated after step2 and go to the Certificates folder to find all certificates which are labelled as CertID_ID.pdf
+## PDF Split
+```
+python splitter.py
+```
 
-4 .For two signs exchange this minipage codeblock with the last minipage in certGen.tex
+## Process/Changes:
+
+1. First run the [preprocess.py](preprocess.py) script with a Records.csv file in the same directory which outputs a FinalRecords.csv file.
+
+2. When running latex file make sure to have the CTE_logo.png, cert.pdf, sign.pdf and FinalRecords.csv in the same directory and make sure to run the TexLive command after you cd to the folder containing all these files
+
+3. Finally run the [splitter.py](splitter.py) to split the pdf generated after step2 and go to the Certificates folder to find all certificates which are labelled as CertID_ID.pdf
+
+4. For two signs exchange this minipage codeblock with the last minipage in certGen.tex
 (line 65)
 
-```latex
+```tex
 		\begin{minipage}[l]{8.8in}
 
 		{\hspace{-0.55cm}\includegraphics[width=.1\linewidth,]{sign.pdf} \hspace{10.41cm}\includegraphics[width=0.1\linewidth]{sign.pdf}}
@@ -61,4 +83,4 @@ Process:
 
 ```
 
-Note : To change the contents of the certificates ull need to change the text in the latex file. Also remember to change the date!
+**Note : To change the contents of the certificates ull need to change the text in the latex file. Also remember to change the date!**
