@@ -4,6 +4,7 @@ import os
 
 # This is a program to split the pdf generated after running latex into individual single page certificates
 inputpdf = PdfFileReader(open("certGen.pdf", "rb"))
+
 # We use the csv file before pre process since we had changed the
 data = pd.read_csv("Records.csv", header=0)
 ID = data["ID"]

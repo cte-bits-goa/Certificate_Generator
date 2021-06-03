@@ -10,17 +10,18 @@ typemap = {
 
 data["Type"] = data["Position"].map(typemap)
 
-
+URL = "http://legacy-cert.bpgc-cte.org/certs/{}.html"
 data["CertID"] = data["CertID"].apply(
-    lambda x: "http://legacy-cert.bpgc-cte.org/certs/{}.html".format(x)
+    lambda x: URL.format(x)
 )  # to convert the certID into a link to be clickable in the certificate for authentication
 
 data["Position"] = data["Position"].replace(
     regex=r"Instructor", value="an instructor"
 )  # replacing the positions to make it grammatically correct in the certificate
-data["Position"] = data["Position"].replace(regex=r"Mentor", value="a Mentor")
+data["Position"] = data["Position"].replace(
+    regex=r"Mentor", value="a Mentor")
 
 # making the new csv file to be used in the latex file
 data.to_csv("FinalRecords.csv")
 
-print(data)
+print(data.head())
