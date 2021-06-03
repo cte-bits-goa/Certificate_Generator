@@ -1,1 +1,0 @@
-Certificates are stored here
